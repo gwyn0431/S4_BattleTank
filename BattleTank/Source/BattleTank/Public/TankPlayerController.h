@@ -13,7 +13,7 @@
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
-	GENERATED_BODY()
+GENERATED_BODY()
 
 public:
 	ATank* GetControlledTank() const;
