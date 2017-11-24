@@ -7,7 +7,7 @@
 void  ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerTank = GetPlayerTank();
+	auto PlayerTank = GetPlayerTank();
 	if (PlayerTank)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("AIController found player: %s"), *(PlayerTank->GetName()));
