@@ -15,10 +15,11 @@ class BATTLETANK_API UTankTurret : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
+	// -1  is max left-hand speed, +1 is max righ-hand movement
 	void Rotate(float RelativeSpeed);
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MaxDegreesPerSecond = 20;
+	float MaxDegreesPerSecond = 25;
 
 };
