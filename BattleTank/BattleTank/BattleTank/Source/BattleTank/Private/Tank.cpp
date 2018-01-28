@@ -4,6 +4,7 @@
 #include "../Public/TankAimingComponent.h"
 #include "../Public/TankBarrel.h"
 #include "../Public/Projectile.h"
+#include "../Public/TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -12,7 +13,8 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// No need to protect pointers as added at construction
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned
@@ -46,8 +48,15 @@ void ATank::SetTurretReference(UTankTurret* TurretToSet)
 void ATank::Fire()
 {
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (Barrel && isReloaded) 
+	
+	if (Barrel && isReloaded)
 	{
+		if (!ProjectileBlueprint)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("It seems to be your ProjectileBlueprint for firing is't setted up properly. Check for it in Tank_BP."))
+			return;
+		}
+
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
