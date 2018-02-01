@@ -11,15 +11,6 @@ AProjectile::AProjectile()
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
 	ProjectileMovement->bAutoActivate = false;
-
-	if (!ProjectileMovement)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("NOT FOUND"))
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("FOUND"))
-	}
 }
 
 // Called when the game starts or when spawned

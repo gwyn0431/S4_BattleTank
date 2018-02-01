@@ -52,7 +52,7 @@ void ATank::Fire()
 	{
 		if (!ProjectileBlueprint)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("It seems to be your ProjectileBlueprint for firing is't setted up properly. Check for it in Tank_BP."))
+			UE_LOG(LogTemp, Warning, TEXT("It seems to be that your ProjectileBlueprint for firing is't setted up properly. Check for it in Tank_BP."))
 			return;
 		}
 
