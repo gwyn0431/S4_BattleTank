@@ -1,3 +1,5 @@
+// Copyright © gwyn0431 
+
 #pragma once
 
 #include "Components/StaticMeshComponent.h"

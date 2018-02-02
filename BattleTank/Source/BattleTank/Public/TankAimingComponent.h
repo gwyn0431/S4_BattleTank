@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright © gwyn0431 
 
 #pragma once
 
@@ -33,7 +33,7 @@ public:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFireStatus FireStatus = EFireStatus::Aiming;
+	EFireStatus FireStatus = EFireStatus::Reloading;
 
 private:
 	// Sets default values for this component's properties

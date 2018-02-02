@@ -1,3 +1,5 @@
+// Copyright © gwyn0431 
+
 #include "TankTrack.h"
 #include "BattleTank.h"
 
