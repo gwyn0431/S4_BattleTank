@@ -12,9 +12,24 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	bWantsBeginPlay = true;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	// So the first fire is after initial reload
+	LastFireTime = FPlatformTime::Seconds();
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
@@ -66,14 +81,11 @@ void UTankAimingComponent::MoveCannonTowards(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel)) { return; }
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	if (isReloaded)
+	if (FiringState != EFiringState::Reloading)
 	{
-		if (!ProjectileBlueprint)
+		if (!ensure(Barrel && ProjectileBlueprint))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("It seems to be that your ProjectileBlueprint for firing is't setted up properly. Check for it in Tank_BP."))
+			UE_LOG(LogTemp, Warning, TEXT("Probably ProjectileBlueprint for firing is't setted up properly. Check for it in AimComp. Setup. (or you just don't have Barrel.)"))
 			return;
 		}
 
