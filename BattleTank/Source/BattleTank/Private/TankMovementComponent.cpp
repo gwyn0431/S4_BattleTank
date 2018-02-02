@@ -7,11 +7,6 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 {
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
-	if (!LeftTrack || !RightTrack) 
-	{ 
-		UE_LOG(LogTemp, Error, TEXT("Tracks was't initialized properly, probably not able to move."));
-		TracksInitialised = false; 
-	}
 }
 
 
@@ -31,14 +26,14 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 void UTankMovementComponent::MoveTank(float Throw)
 {
-	if (!TracksInitialised) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::RotateTank(float Throw)
 {
-	if (!TracksInitialised) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }

@@ -34,7 +34,4 @@ private:
 
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
-	
-	// Boolean for pointers protection, if tracks were forgotten to init in BP.
-	bool TracksInitialised = true;
 };
