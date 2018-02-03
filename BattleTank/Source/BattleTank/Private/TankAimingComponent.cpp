@@ -24,18 +24,26 @@ void UTankAimingComponent::BeginPlay()
 	LastFireTime = FPlatformTime::Seconds();
 }
 
-void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
-{
-	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
-	{
-		FiringState = EFiringState::Reloading;
-	}
-}
-
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	else if (IsBarrelMoving())
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+	}
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
@@ -60,7 +68,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 	if (bHaveAimSolution) 
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveCannonTowards(AimDirection);
 	}
 	// If no solution found do nothing
@@ -78,14 +86,20 @@ void UTankAimingComponent::MoveCannonTowards(FVector AimDirection)
 	Turret->Rotate(DeltaRotator.Yaw);
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector();
+	return !BarrelForward.Equals(AimDirection, 0.01); // 0.01 is magic number, representing tolerance of discrepancy
+}
 
 void UTankAimingComponent::Fire()
 {
 	if (FiringState != EFiringState::Reloading)
 	{
-		if (!ensure(Barrel && ProjectileBlueprint))
+		if (!ensure(Barrel && ProjectileBlueprint)) 
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Probably ProjectileBlueprint for firing is't setted up properly. Check for it in AimComp. Setup. (or you just don't have Barrel.)"))
+			UE_LOG(LogTemp, Warning, TEXT("Probably ProjectileBlueprint for firing is't setted up properly. Check for it in AimComp. Setup. (or you just don't have Barrel.)")) // TODO review if this log is necessary
 			return;
 		}
 
