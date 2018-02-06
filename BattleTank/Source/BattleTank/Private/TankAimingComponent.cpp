@@ -108,7 +108,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01); // 0.01 is magic number, representing tolerance of discrepancy
+	return !BarrelForward.Equals(AimDirection, 0.075); // 0.01 is magic number, representing tolerance of discrepancy
 }
 
 void UTankAimingComponent::Fire()
