@@ -17,8 +17,8 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 GENERATED_BODY()
 
 protected:
-	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup") 
+	void FoundAimingComponent(UTankAimingComponent* AimCompRef); // Called from TankPlayerController_BP to determine when to create Player UI
 
 	UFUNCTION()
 	void OnPossesedTankDeath();

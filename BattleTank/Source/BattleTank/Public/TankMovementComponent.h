@@ -23,10 +23,7 @@ public:
 	void MoveTank(float Throw);
 
 	UFUNCTION(BlueprintCallable, Category = "Input")
-	void RotateTank(float Throw);
-
-	// TODO check best protection
-	
+	void RotateTank(float Throw)
 
 private:
 	// Called from the pathfinding logic by the AI controllers

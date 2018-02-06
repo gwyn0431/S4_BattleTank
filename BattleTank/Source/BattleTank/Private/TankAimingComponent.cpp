@@ -115,11 +115,7 @@ void UTankAimingComponent::Fire()
 {
 	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming)
 	{
-		if (!ensure(Barrel && ProjectileBlueprint)) 
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Probably ProjectileBlueprint for firing is't setted up properly. Check for it in AimComp. Setup. (or you just don't have Barrel.)")) // TODO review if this log is necessary
-			return;
-		}
+		if (!ensure(Barrel && ProjectileBlueprint)) {  return; }
 
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
