@@ -5,6 +5,8 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
+class UTankAimingComponent;
+
 /**
 *
 */
@@ -27,4 +29,6 @@ private:
 
 	UFUNCTION()
 	void OnPossessedTankDeath();
+
+	UTankAimingComponent* AimingComponent;
 };

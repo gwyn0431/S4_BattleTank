@@ -11,10 +11,10 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GetPawn())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AI possesing a tank"));
-	}
+	if (!ensure(GetPawn())) { return; }
+
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 }
 
 void ATankAIController::SetPawn(APawn* InPawn)
@@ -49,8 +49,7 @@ void ATankAIController::Tick(float DeltaTime)
 	// Move towards the player
 	MoveToActor(PlayerTank, AcceptanceRadius);
 
-	// Aim towards the player
-	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>(); // TODO review this AimingComponent "getting", not sure it's right.
+	// Aim towards the player 
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 	if (AimingComponent->GetFiringState() == EFiringState::Locked)

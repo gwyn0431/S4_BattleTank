@@ -8,7 +8,7 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>(); // TODO review this AimingComponent "getting", not sure it's right.
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	
 	FoundAimingComponent(AimingComponent);
@@ -40,8 +40,6 @@ void ATankPlayerController::OnPossesedTankDeath()
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetPawn()) { return; } // e.g if not possesing
-	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>(); // TODO review this AimingComponent "getting", not sure it's right.
 	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; // Out parameter

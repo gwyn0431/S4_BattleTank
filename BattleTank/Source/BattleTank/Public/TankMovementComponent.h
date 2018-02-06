@@ -23,7 +23,7 @@ public:
 	void MoveTank(float Throw);
 
 	UFUNCTION(BlueprintCallable, Category = "Input")
-	void RotateTank(float Throw)
+	void RotateTank(float Throw);
 
 private:
 	// Called from the pathfinding logic by the AI controllers
